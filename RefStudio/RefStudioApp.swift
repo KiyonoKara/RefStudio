@@ -1,11 +1,3 @@
-//
-//  RefStudioApp.swift
-//  RefStudio
-//
-//  Created by Kiyo on 10/9/26.
-//
-
-
 import SwiftUI
 import SwiftData
 
@@ -15,7 +7,12 @@ struct RefStudioApp: App {
 
     init() {
         do {
-            modelContainer = try ModelContainer(for: Resource.self, Collection.self, Attachment.self)
+            let storage = try LibraryStorage.makeDefault()
+            let configuration = ModelConfiguration(url: storage.storeURL)
+            modelContainer = try ModelContainer(
+                for: Resource.self, ResourceGroup.self, Attachment.self,
+                configurations: configuration
+            )
         } catch {
             fatalError("Failed to create model container: \(error)")
         }
@@ -23,7 +20,8 @@ struct RefStudioApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ResourceListView()
+            // AppShell owns the app's single navigation structure. Views declare no stack.
+            AppShell()
                 .modelContainer(modelContainer)
         }
     }
