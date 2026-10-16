@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct RefStudioApp: App {
@@ -10,7 +10,9 @@ struct RefStudioApp: App {
             let storage = try LibraryStorage.makeDefault()
             let configuration = ModelConfiguration(url: storage.storeURL)
             modelContainer = try ModelContainer(
-                for: Resource.self, ResourceGroup.self, Attachment.self,
+                for: Resource.self,
+                ResourceGroup.self,
+                Attachment.self,
                 configurations: configuration
             )
         } catch {
@@ -20,7 +22,7 @@ struct RefStudioApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // AppShell owns the app's single navigation structure. Views declare no stack.
+            // the nav
             AppShell()
                 .modelContainer(modelContainer)
         }
